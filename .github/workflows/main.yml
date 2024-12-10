@@ -1,0 +1,17 @@
+name: Send Teams Notification on Workflow Completion
+
+on:
+  workflow_run:
+    workflows: ["CI Workflow"]  # Replace with your workflow name
+    types:
+      - completed
+
+jobs:
+  send-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification to Teams
+        run: |
+          curl -X POST -H 'Content-Type: application/json' -d '{
+            "text": "The GitHub workflow has completed successfully!"
+          }' ${{ secrets.TEAMS_WEBHOOK_URL }}
